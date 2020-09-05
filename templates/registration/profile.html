@@ -1,0 +1,46 @@
+{% extends 'basic_view.html' %}
+
+{% block head %} <title>Профиль {{ user }}</title>{% endblock %}
+{% block heading %} <h4>Приветствуем, {{ user }}!</h4> {% endblock %}
+{% block content %}
+
+<br>
+<p>На данной странице будут отображаться ваши статьи.</p>
+<p>Что бы стать автором перейдите по <a href="{% url 'faq:main' %}">странице</a>, прочитайте соглашение и подайте заявку.</p>
+<br>
+    <p>Статус автора: {% if user.is_staff %} <strong style="color: green;">Подтвержден</strong>{% else %} <strong style="color: darkred">Не подтвержден</strong>{% endif %}</p>
+
+    <h4>Статьи пользователя:</h4>
+    <br>
+    <a href="http://127.0.0.1:8000/admin/">Добавить статью</a>
+    <br>
+    {% if user_ads %}
+
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Название</th>
+      <th scope="col">Категория</th>
+      <th scope="col">Краткое описание</th>
+      <th scope="col">Просмотры</th>
+        <th scope="col">Ссылка</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        {% for i in user_ads %}
+          <td>{{ i.title }}</td>
+          <td>{% for category in i.display_category %}<a class="text-muted" href="{% url 'adlist:ad-list' category.title %}"><small>{{ category.title }} </small></a>{% endfor %}</td>
+          <td>{{ i.get_short_description}}</td>
+          <td>{{ i.count}}</td>
+            <td><a href="{{ i.get_absolute_url }}">Ссылка</a></td>
+        {% endfor %}
+    </tr>
+    </tr>
+  </tbody>
+</table>
+
+    {% else %}
+        <p>К сожалению у вас ещё нет ни одной опубликованной статьи! Пора заняться этим!</p>
+    {% endif %}
+{% endblock %}

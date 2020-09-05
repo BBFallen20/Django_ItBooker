@@ -1,0 +1,26 @@
+{% extends 'basic_view.html' %}
+
+{% block heading %}
+<h1 class="text-center">{{ author.first_name }} {{ author.last_name }}</h1>
+<hr>
+{% endblock %}
+
+{% block content %}
+        {% if author.image %}
+                <img class="img-thumbnail rounded mx-auto d-block" src="{{ author.image.url }}" alt="" height="300px" width="400px">
+        {% else %}
+                <img class="img-thumbnail rounded mx-auto d-block" src="images/no_author_photo.jpg" alt="" height="300px" width="400px">
+        {% endif %}
+
+        <p>{{ author.description }}</p>
+        <p class="text-right"><strong>Дата рождения:</strong>{% if author.date_of_birth is not None %}{{ author.date_of_birth }}{% else %}-{% endif %}</p>
+        <p class="text-right"><strong>Дата смерти:</strong>{% if author.date_of_death is not None %}{{ author.date_of_death }}{% else %}-{% endif %}</p>
+        <p class="text-center"><strong>Книги автора:</strong></p>
+        <ul>
+        {% for book in author_books %}
+        <li><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></li>
+        {% endfor %}
+        </ul>
+
+
+{% endblock %}

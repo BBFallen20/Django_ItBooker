@@ -1,0 +1,19 @@
+{% extends 'basic_view.html' %}
+
+{% load static %}
+
+{% block head %}
+    <title>Выход</title>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center"><strong>Вы вышли из аккаунта!</strong></h1>
+        <hr>
+        <p class="text-center"><strong><a href="{% url 'blog:login' %}">Авторизация</a></strong></p>
+        <hr>
+    </div>
+
+
+{% endblock %}

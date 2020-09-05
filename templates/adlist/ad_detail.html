@@ -1,0 +1,60 @@
+{% extends 'basic_view.html' %}
+
+{% block head %}
+    <title>{{ ad.title }}</title>
+{% endblock %}
+
+
+{% block heading %}
+    <h1 class="text-center">{{ ad.title }}</h1>
+    <hr>
+{% endblock %}
+{% block content %}
+           <h4>{% for category in ad.display_category %}<a class="text-muted" href="{% url 'adlist:ad-list' category.title %}"><small>{{ category.title }} </small></a>{% endfor %}</h4>
+
+    {% if ad.image %}
+        <img class="img-thumbnail rounded mx-auto d-block" src="{{ ad.image.url }}" alt="" height="600px" width="800px">
+    {% else %}
+        <img class="img-thumbnail rounded mx-auto d-block" src="images/no_photo.png" alt="" height="300px" width="400px">
+    {% endif %}
+        <br><br>
+    <p>{{ ad.description }}</p>
+    <p class="text-right"><strong>Источник: </strong><a href="{{ ad.sour.get_absolute_url }}">{{ ad.sour }}</a></p>
+    <p class="text-right"><strong>Дата публикации:</strong>{{ ad.pubdate }}</p>
+    <p class="text-right"> {{ ad.count }} <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"/>
+          <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/></svg>
+    </p>
+     <h4 class="text-left">Комментарии ({{ ad.ad_comments.count }})</h4>
+        <hr>
+        {% for comment in ad.ad_comments.all %}
+            <p style="color: darkgoldenrod">{{ comment.author }}</p>
+            <p>{{ comment.text }}</p>
+            <p class="text-left text-muted">Дата публикации: {{ comment.pubdate }}</p>
+            <hr>
+        {% endfor %}
+        {% if user.is_authenticated %}
+        <p>Добавить комментарий:</p>
+            <div class="col-3">
+                <form method="post" id="add_form" action="">
+                    {% csrf_token %}
+                {% if messages %}
+                    <div class="alert alert-success">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                    <p>Текст:</p>
+                    {{ form.text }}
+                </form>
+                <br>
+                    <button form="add_form" type="submit" class="btn btn-secondary">Добавить</button>
+
+            </div>
+        {% else %}
+            <p>Войдите что-бы оставлять комментарии.</p>
+            <a href="{% url 'blog:login' %}"><button class="btn btn-secondary">Войти</button></a>
+        {% endif %}
+            <hr>
+{% endblock %}

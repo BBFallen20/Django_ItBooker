@@ -1,0 +1,51 @@
+{% extends 'basic_view.html' %}
+
+{% load static %}
+
+{% block head %}
+    <title>Поиск</title>
+{% endblock %}
+
+{% block heading %}
+    <h2 class="text-center">Поисковой запрос:</h2>
+    <hr>
+{% endblock %}
+
+{% block leftsidebar %}
+<h5 class="text-left">Поиск</h5>
+    <form action="{% url 'blog:search' %}" method="get">
+    <input name="q" type="text" placeholder="Введите запрос" style="width: 160px;">
+    </form>
+<small class="text-center text-muted">Ищите по названию либо автору книги!</small>
+    <div class="dropdown open">
+  <button class="btn btn-secondary dropdown-toggle" style="width: 100%" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Категории
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      {% for category in genres %}<a class="dropdown-item" href="{% url 'blog:books' category.name %}">{{ category.name }}</a>{% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+     {% for book in object_list %}
+                <a class="text-center" href="{{ book.get_absolute_url }}"><h2>{{ book.title }}</h2></a>
+                         <p>{% for category in book.display_genre %}<a class="text-muted" href="{% url 'blog:books' category.title %}"><small>{{ category.title }} </small></a>{% endfor %}</p>
+                {% if book.image %}
+                    <img class="img-thumbnail rounded mx-auto d-block" src="{{ book.image.url }}" alt="" style="width: 300px; height: 400px" >
+                {% else %}
+                    <img class="img-thumbnail rounded mx-auto d-block" src="images/no_photo.png" alt="" style="width: 400px; height: 300px">
+                {% endif %}
+                <p><strong>Автор: </strong><a class="btn btn-outline-success" href="{{book.author.get_absolute_url}}">{{ book.author }}</a></p>
+                <p><strong>Описание:</strong>{{ book.get_short_description }} <a role="button" class="btn btn-primary " href="{{ book.get_absolute_url }}">Читать далее</a></p>
+                <p><strong>Ссылка на скачивание: </strong>{% if user.is_authenticated %}<a role="button"  style="height: min-content;width: min-content" class="btn btn-primary" href="{{ book.link }}">Скачать</a>
+                {% else %}
+                    <a role="button" class="btn btn-primary " href="{% url 'blog:login' %}">Вход</a>
+                {% endif %}</p>
+                <p class="text-right"><strong>Дата публикации:</strong> {{ book.pubdate }}</p>
+                 <p class="text-right"> {{ book.count }} <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"/>
+                  <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/></svg></p>
+                <hr>
+            {% endfor %}
+{% endblock %}

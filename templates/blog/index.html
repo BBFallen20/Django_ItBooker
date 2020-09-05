@@ -1,0 +1,106 @@
+{% extends 'basic_view.html' %}
+
+{% load static %}
+
+{% block head %}
+    <title>Главная</title>
+{% endblock %}
+
+{% block heading %}
+    <h2 class="text-center">Главная страница</h2>
+    <hr>
+{% endblock %}
+
+
+{% block index %}
+<div class="container-fluid" style="background: whitesmoke; height: 400px">
+       <br><br><h2 class="text-center">Лучшие статьи и книги со всего интернета!</h2>
+       <div class="row">
+           <div class="col-lg-4 mb-3 mb-lg-0 text-center" style="margin-top: 50px">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"><path fill-rule="evenodd" d="M0 3.75A.75.75 0 01.75 3h7.497c1.566 0 2.945.8 3.751 2.014A4.496 4.496 0 0115.75 3h7.5a.75.75 0 01.75.75v15.063a.75.75 0 01-.755.75l-7.682-.052a3 3 0 00-2.142.878l-.89.891a.75.75 0 01-1.061 0l-.902-.901a3 3 0 00-2.121-.879H.75a.75.75 0 01-.75-.75v-15zm11.247 3.747a3 3 0 00-3-2.997H1.5V18h6.947a4.5 4.5 0 012.803.98l-.003-11.483zm1.503 11.485V7.5a3 3 0 013-3h6.75v13.558l-6.927-.047a4.5 4.5 0 00-2.823.971z"></path></svg>
+               <br><strong>Книги от лучших авторов</strong>
+           </div>
+           <div class="col-lg-4 mb-3 mb-lg-0 text-center" style="margin-top: 50px">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"><path fill-rule="evenodd" d="M5.962 2.513a.75.75 0 01-.475.949l-.816.272a.25.25 0 00-.171.237V21.25c0 .138.112.25.25.25h14.5a.25.25 0 00.25-.25V3.97a.25.25 0 00-.17-.236l-.817-.272a.75.75 0 01.474-1.424l.816.273A1.75 1.75 0 0121 3.97v17.28A1.75 1.75 0 0119.25 23H4.75A1.75 1.75 0 013 21.25V3.97a1.75 1.75 0 011.197-1.66l.816-.272a.75.75 0 01.949.475z"></path><path fill-rule="evenodd" d="M7 1.75C7 .784 7.784 0 8.75 0h6.5C16.216 0 17 .784 17 1.75v1.5A1.75 1.75 0 0115.25 5h-6.5A1.75 1.75 0 017 3.25v-1.5zm1.75-.25a.25.25 0 00-.25.25v1.5c0 .138.112.25.25.25h6.5a.25.25 0 00.25-.25v-1.5a.25.25 0 00-.25-.25h-6.5z"></path></svg>
+               <br><strong>Статьи на самые интересные темы</strong>
+           </div>
+           <div class="col-lg-4 mb-3 mb-lg-0 text-center" style="margin-top: 50px">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"><path fill-rule="evenodd" d="M17.263 2.177a1.75 1.75 0 012.474 0l2.586 2.586a1.75 1.75 0 010 2.474L19.53 10.03l-.012.013L8.69 20.378a1.75 1.75 0 01-.699.409l-5.523 1.68a.75.75 0 01-.935-.935l1.673-5.5a1.75 1.75 0 01.466-.756L14.476 4.963l2.787-2.786zm-2.275 4.371l-10.28 9.813a.25.25 0 00-.067.108l-1.264 4.154 4.177-1.271a.25.25 0 00.1-.059l10.273-9.806-2.94-2.939zM19 8.44l2.263-2.262a.25.25 0 000-.354l-2.586-2.586a.25.25 0 00-.354 0L16.061 5.5 19 8.44z"></path></svg>
+               <br><strong>Станьте автором статей</strong>
+           </div>
+       </div>
+       <br><br><br>
+       <h6 class="text-center">Авторы лучших статей попадают в топы!Начните сейчас!</h6>
+   </div>
+   <section class="py-6" style="height: 100px"></section>
+        <div class="container" style="height: 100px">
+            <div class="col-md-8">
+                <p class="subtitle text-primary">Читайте, учитесь, развивайтесь.</p>
+                <br>
+            </div>
+        </div>
+{% endblock %}
+
+{% block content %}
+
+
+    Лучшие статьи и книги на совершенно разные тематики - это именно то что вы встретите на нашем сайте!
+    Большинство книг имеют ссылку на скачивание! Зарегистрируйтесь, скачивайте, читайте и растите профессионально вместе с ItBooker!
+    <br><br><br>
+    <div class="container" style="height: auto">
+        <div class="row justify-content-md-center">
+            <div class="col-lg-5">
+            <h3 class="text-center"><p><a role="button" class="btn btn-primary " style="width: 100%" href="{% url 'blog:books' %}">Книги</a></p></h3>
+                {% for book in books %}
+                    <a class="text-center" href="{{ book.get_absolute_url }}"><h2>{{ book.title }}</h2></a>
+                        <p>{% for category in book.display_genre %}<a class="text-muted"  href="{% url 'blog:books' category.title %}"><small>{{ category.title }} </small></a>{% endfor %}</p>
+                {% if book.image %}
+                    <img class="img-thumbnail rounded mx-auto d-block" src="{{ book.image.url }}" alt="" style="width: 300px; height: 400px" >
+                {% else %}
+                    <img class="img-thumbnail rounded mx-auto d-block" src="images/no_photo.png" alt="" style="width: 400px; height: 300px">
+                {% endif %}
+                <p><strong>Автор: </strong><a class="btn btn-outline-success" href="{{book.author.get_absolute_url}}">{{ book.author }}</a></p>
+                <p><strong>Описание:</strong>{{ book.get_short_description }} <a role="button" class="btn btn-primary " href="{{ book.get_absolute_url }}">Читать далее</a></p>
+                <p><strong>Ссылка на скачивание: </strong>{% if user.is_authenticated %}<a role="button"  style="height: min-content;width: min-content" class="btn btn-primary" href="{{ book.link }}">Скачать</a>
+                {% else %}
+                    <a role="button" class="btn btn-primary " href="{% url 'blog:login' %}">Вход</a>
+                {% endif %}</p>
+                <p class="text-right"><strong>Дата публикации:</strong> {{ book.pubdate }}</p>
+                    <p class="text-right"> {{ book.count }} <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"/>
+  <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+</svg></p>
+                <hr>
+                {% endfor %}
+            </div>
+            <div class="col-lg-5">
+            <h3 class="text-center"><p><a role="button" class="btn btn-primary " style="width: 100%" href="{% url 'adlist:ad-list' %}">Статьи</a></p></h3>
+
+                {% for ad in ads %}
+                    <h2 class="text-center"><a href="{{ ad.get_absolute_url }}" class="">{{ ad.title }}</a></h2>
+                            <p>{% for category in ad.display_category %}<a class="text-muted" href="{% url 'adlist:ad-list' category.title %}"><small>{{ category.title }} </small></a>{% endfor %}</p>
+                    {% if ad.image %}
+                        <img class="img-thumbnail rounded mx-auto d-block" src="{{ ad.image.url }}" alt="" height="300px" width="400px" >
+                    {% else %}
+                        <img class="img-thumbnail rounded mx-auto d-block" src="{% static 'med/no_photo.png' %}" alt="" >
+                    {% endif %}
+
+                    <p><strong>{{ ad.get_short_description }}</strong></p>
+                    <p><a role="button" class="btn btn-primary " href="{{ ad.get_absolute_url }}">Читать далее</a></p>
+                    <p class="text-right"><strong>Источник: </strong><a href="{{ ad.sour.get_absolute_url }}">{{ ad.sour }}</a></p>
+                    <p class="text-right"><strong>Дата публикации: </strong>{{ ad.pubdate }}</p>
+                    <p class="text-right"> {{ ad.count }} <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"/>
+                          <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/></svg>
+                    </p>
+                    <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
+
