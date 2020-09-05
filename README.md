@@ -10,7 +10,7 @@ My web-project which contains list of books and articles, comments and views cou
 
 
 Список книг с возможностью поиска и фильтра категорий
-![Список книг с возможностью поиска и фильтра категорий](https://github.com/BBFallen20/Django_ItBooker/blob/master/Screenshot_2.png)
+![Список книг с возможностью поиска и фильтра категорий](https://github.com/BBFallen20/Django_ItBooker/raw/master/Screenshot_2.png)
 
 
 Подробная информация о книге(аналогично со статьями)
